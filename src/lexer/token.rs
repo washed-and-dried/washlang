@@ -18,6 +18,7 @@ pub enum TokenType {
     // misc
     LITERAL,
     ILLEGAL,
+    EOF,
     NULL,
 }
 
@@ -25,4 +26,10 @@ pub enum TokenType {
 pub struct Token {
     pub tok_type: TokenType,
     pub literal: String,
+}
+
+impl Token {
+    pub fn new(literal: String, tok_type: TokenType) -> Self {
+        Token { literal, tok_type }
+    }
 }

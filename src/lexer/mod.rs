@@ -1,3 +1,4 @@
+pub mod lexer_test;
 pub mod token;
 use token::*;
 
@@ -22,11 +23,29 @@ impl Lexer {
         lex
     }
 
-    pub fn next_token() -> Token {
-        Token {
-            tok_type: TokenType::NULL,
-            literal: String::from(""),
-        }
+    pub fn next_token(&mut self) -> Token {
+        // skip \n, \r and \t
+        self.skip_whitespaces();
+
+        let tok = match self.ch {
+            // null character indicates end of file/line
+            '\0' => Token::new(self.ch.to_string(), TokenType::EOF),
+
+            // expression: +, -, /, *, %
+            '+' => Token::new(self.ch.to_string(), TokenType::PLUS),
+            '-' => Token::new(self.ch.to_string(), TokenType::MINUS),
+            '*' => Token::new(self.ch.to_string(), TokenType::ASTERIC),
+            '/' => Token::new(self.ch.to_string(), TokenType::SLASH),
+            '%' => Token::new(self.ch.to_string(), TokenType::MODULO),
+
+            //TODO: handle literals, keywords and other related things.
+            _ => Token::new(self.ch.to_string(), TokenType::ILLEGAL),
+        };
+
+        // put the next character in stream to `self.ch`
+        self.read_next();
+
+        tok
     }
 
     fn read_next(&mut self) {
@@ -38,6 +57,12 @@ impl Lexer {
 
         self.position_current = self.position_next;
         self.position_next += 1;
+    }
+
+    fn skip_whitespaces(&mut self) {
+        while self.ch == '\n' || self.ch == '\r' || self.ch == '\t' {
+            self.read_next();
+        }
     }
 
     fn char_at(&self, index: usize) -> char {
