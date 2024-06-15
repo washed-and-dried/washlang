@@ -38,6 +38,19 @@ impl Lexer {
             '/' => Token::new(self.ch.to_string(), TokenType::SLASH),
             '%' => Token::new(self.ch.to_string(), TokenType::MODULO),
 
+            '=' => {
+                // FIXME: NIGGA WTF???
+                if (self.match_next('=')) {
+                    let ch = self.ch;
+                    self.read_next();
+                    let ch = ch.to_string();
+                    ch.push(self.ch);
+                    Token::new(ch, TokenType::EQUAL);
+                } else {
+                    Token::new(self.ch.to_string(), TokenType::ASSIGN);
+                }
+            }
+
             //TODO: handle literals, keywords and other related things.
             _ => Token::new(self.ch.to_string(), TokenType::ILLEGAL),
         };
@@ -46,6 +59,10 @@ impl Lexer {
         self.read_next();
 
         tok
+    }
+
+    fn match_next(&mut self, c: char) -> bool {
+        return self.input.len() > self.position_next && self.char_at(self.position_next) == c;
     }
 
     fn read_next(&mut self) {
