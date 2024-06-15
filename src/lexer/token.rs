@@ -14,6 +14,13 @@ pub enum TokenType {
     SLASH,
     MODULO,
     ExprEnd,
+    ASSIGN,
+    EQUAL,
+    NotEqual,
+    LessThan,
+    LessThanEqual,
+    MORE,
+    MoreThanEqual,
 
     // misc
     LITERAL,
