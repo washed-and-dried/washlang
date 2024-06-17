@@ -40,19 +40,25 @@ impl Lexer {
 
             '=' => {
                 // FIXME: NIGGA WTF???
-                if (self.match_next('=')) {
+                if self.match_next('=') {
                     let ch = self.ch;
                     self.read_next();
-                    let ch = ch.to_string();
+                    let mut ch = ch.to_string();
                     ch.push(self.ch);
-                    Token::new(ch, TokenType::EQUAL);
+                    return Token::new(ch, TokenType::EQUAL);
                 } else {
-                    Token::new(self.ch.to_string(), TokenType::ASSIGN);
+                    return Token::new(self.ch.to_string(), TokenType::ASSIGN);
                 }
             }
 
             //TODO: handle literals, keywords and other related things.
-            _ => Token::new(self.ch.to_string(), TokenType::ILLEGAL),
+            _ => {
+                let rest: String = self.walk_rest();
+                match rest.as_str() {
+                    "let" => Token::new(rest, TokenType::LET),
+                    _ => Token::new(self.ch.to_string(), TokenType::ILLEGAL),
+                }
+            }
         };
 
         // put the next character in stream to `self.ch`
@@ -62,7 +68,14 @@ impl Lexer {
     }
 
     fn match_next(&mut self, c: char) -> bool {
-        return self.input.len() > self.position_next && self.char_at(self.position_next) == c;
+        self.input.len() > self.position_next && self.char_at(self.position_next) == c
+    }
+    // TODO: Yet to implement, walks the entire self.input using self.read_next() until a ' ' space
+    // is encountered. (maybe not just a space, @kishore needed)
+    fn walk_rest(&mut self) -> String {
+        let mut val: String = "".to_string();
+        val.push(self.ch);
+        val
     }
 
     fn read_next(&mut self) {
