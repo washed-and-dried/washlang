@@ -78,7 +78,6 @@ impl Lexer {
             val.push(self.ch);
             self.read_next();
         }
-        val.push(self.ch);
         val
     }
 
