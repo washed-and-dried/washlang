@@ -54,10 +54,10 @@ impl Lexer {
             //TODO: handle literals, keywords and other related things.
             _ => {
                 let rest: String = self.walk_rest();
-                match rest.as_str() {
+                return match rest.as_str() {
                     "let" => Token::new(rest, TokenType::LET),
                     _ => Token::new(self.ch.to_string(), TokenType::ILLEGAL),
-                }
+                };
             }
         };
 
@@ -74,6 +74,11 @@ impl Lexer {
     // is encountered. (maybe not just a space, @kishore needed)
     fn walk_rest(&mut self) -> String {
         let mut val: String = "".to_string();
+        while self.ch != ' ' {
+            // TODO: other checks here later please
+            val.push(self.ch);
+            self.read_next();
+        }
         val.push(self.ch);
         val
     }
