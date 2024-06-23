@@ -38,16 +38,13 @@ impl Lexer {
             '/' => Token::new(self.ch.to_string(), TokenType::SLASH),
             '%' => Token::new(self.ch.to_string(), TokenType::MODULO),
 
+            // match = (ASSIGN) and ==(EQUAL)
             '=' => {
-                // FIXME: NIGGA WTF???
                 if self.match_next('=') {
-                    let ch = self.ch;
-                    self.read_next();
-                    let mut ch = ch.to_string();
-                    ch.push(self.ch);
-                    return Token::new(ch, TokenType::EQUAL);
+                    self.read_next(); // skip =
+                    Token::new(String::from("=="), TokenType::EQUAL)
                 } else {
-                    return Token::new(self.ch.to_string(), TokenType::ASSIGN);
+                    Token::new(self.ch.to_string(), TokenType::ASSIGN)
                 }
             }
 
@@ -68,7 +65,7 @@ impl Lexer {
     }
 
     fn match_next(&mut self, c: char) -> bool {
-        self.input.len() > self.position_next && self.char_at(self.position_next) == c
+        self.char_at(self.position_next) == c
     }
     // TODO: Yet to implement, walks the entire self.input using self.read_next() until a ' ' space
     // is encountered. (maybe not just a space, @kishore needed)
@@ -95,7 +92,8 @@ impl Lexer {
     }
 
     fn skip_whitespaces(&mut self) {
-        while self.ch == '\n' || self.ch == '\r' || self.ch == '\t' {
+        while self.ch.is_ascii_whitespace() || self.ch == '\n' || self.ch == '\r' || self.ch == '\t'
+        {
             self.read_next();
         }
     }

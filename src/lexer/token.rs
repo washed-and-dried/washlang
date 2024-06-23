@@ -13,7 +13,6 @@ pub enum TokenType {
     ASTERIC,
     SLASH,
     MODULO,
-    ExprEnd,
     ASSIGN,
     EQUAL,
     NotEqual,
@@ -21,6 +20,7 @@ pub enum TokenType {
     LessThanEqual,
     MORE,
     MoreThanEqual,
+    ExprEnd,
 
     // misc
     LITERAL,

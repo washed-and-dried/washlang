@@ -4,10 +4,16 @@ mod lexertest {
 
     #[test]
     fn testing_basic_expression() {
-        let input = "+-*/%1";
+        let input = "
+            +-*/%
+
+            =+==
+            ===
+        ";
 
         let mut lexer = Lexer::new(input.to_string());
 
+        // do not remove white spaces between the separated token group :O
         let toks: Vec<Token> = vec![
             Token::new(String::from("+"), TokenType::PLUS),
             Token::new(String::from("-"), TokenType::MINUS),
@@ -15,7 +21,13 @@ mod lexertest {
             Token::new(String::from("/"), TokenType::SLASH),
             Token::new(String::from("%"), TokenType::MODULO),
 
-            Token::new(String::from("1"), TokenType::ILLEGAL),
+
+            Token::new(String::from("="), TokenType::ASSIGN),
+            Token::new(String::from("+"), TokenType::PLUS),
+            Token::new(String::from("=="), TokenType::EQUAL),
+
+            Token::new(String::from("=="), TokenType::EQUAL),
+            Token::new(String::from("="), TokenType::ASSIGN),
 
             Token::new(String::from("\0"), TokenType::EOF)
         ];
