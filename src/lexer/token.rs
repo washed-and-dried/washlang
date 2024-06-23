@@ -6,6 +6,9 @@ pub enum TokenType {
     FN,
     KeywordEnd,
 
+    // data types
+    INT,
+
     // expression token
     ExprStart,
     PLUS,
@@ -38,5 +41,9 @@ pub struct Token {
 impl Token {
     pub fn new(literal: String, tok_type: TokenType) -> Self {
         Token { literal, tok_type }
+    }
+
+    pub fn is_keyword(literal: &str) -> Option<TokenType> {
+        todo!();
     }
 }

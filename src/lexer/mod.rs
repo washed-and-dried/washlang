@@ -38,7 +38,7 @@ impl Lexer {
             '/' => Token::new(self.ch.to_string(), TokenType::SLASH),
             '%' => Token::new(self.ch.to_string(), TokenType::MODULO),
 
-            // match = (ASSIGN) and ==(EQUAL)
+            // match =, ==, >=, <=
             '=' => {
                 if self.match_next('=') {
                     self.read_next(); // skip =
@@ -50,11 +50,13 @@ impl Lexer {
 
             //TODO: handle literals, keywords and other related things.
             _ => {
-                let rest: String = self.walk_rest();
-                return match rest.as_str() {
-                    "let" => Token::new(rest, TokenType::LET),
-                    _ => Token::new(self.ch.to_string(), TokenType::ILLEGAL),
-                };
+                if self.ch.is_ascii_digit() {
+                    return self.read_digit();
+                } else if self.ch.is_ascii_alphabetic() {
+                    return self.read_literal();
+                } else {
+                    Token::new(self.ch.to_string(), TokenType::ILLEGAL)
+                }
             }
         };
 
@@ -78,6 +80,36 @@ impl Lexer {
         }
         val.push(self.ch);
         val
+    }
+
+    fn read_digit(&mut self) -> Token {
+        let pos = self.position_current;
+
+        while self.ch.is_ascii_digit() {
+            self.read_next();
+        }
+
+        let literal = &self.input[pos..self.position_current];
+
+        Token::new(literal.to_owned(), TokenType::INT)
+    }
+
+    fn read_literal(&mut self) -> Token {
+        let pos = self.position_current;
+
+        while self.ch.is_ascii_alphabetic() {
+            self.read_next();
+        }
+
+        let literal = &self.input[pos..self.position_current];
+
+        let mut toktype = TokenType::LITERAL;
+
+        if let Some(keywordType) = Token::is_keyword(literal) {
+            toktype = keywordType;
+        }
+
+        Token::new(literal.to_owned(), toktype)
     }
 
     fn read_next(&mut self) {
