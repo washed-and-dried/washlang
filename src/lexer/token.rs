@@ -23,10 +23,12 @@ pub enum TokenType {
     LessThanEqual,
     MoreThan,
     MoreThanEqual,
-    Bang,
+    LogicalNot,
+    LogicalAnd,
+    LogicalOr,
     ExprEnd,
 
-    // bitwuse
+    // bitwise
     BitwiseLeft,
     BitwiseRight,
     BitwiseOr,
