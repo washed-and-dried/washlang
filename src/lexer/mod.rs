@@ -42,7 +42,7 @@ impl Lexer {
                     self.read_next();
                     Token::new(String::from("!="), TokenType::NotEqual)
                 } else {
-                    Token::new(self.ch.to_string(), TokenType::LogicalNot)
+                    Token::new(self.ch.to_string(), TokenType::Bang)
                 }
             }
 
@@ -60,6 +60,9 @@ impl Lexer {
                 if self.match_next('=') {
                     self.read_next();
                     Token::new(String::from("<="), TokenType::LessThanEqual)
+                } else if self.match_next('<') {
+                    self.read_next();
+                    Token::new(String::from("<<"), TokenType::BitwiseLeft)
                 } else {
                     Token::new(self.ch.to_string(), TokenType::LessThan)
                 }
@@ -69,6 +72,9 @@ impl Lexer {
                 if self.match_next('=') {
                     self.read_next();
                     Token::new(String::from(">="), TokenType::MoreThanEqual)
+                } else if self.match_next('>') {
+                    self.read_next();
+                    Token::new(String::from(">>"), TokenType::BitwiseRight)
                 } else {
                     Token::new(self.ch.to_string(), TokenType::MoreThan)
                 }
