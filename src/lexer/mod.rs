@@ -37,12 +37,31 @@ impl Lexer {
             '*' => Token::new(self.ch.to_string(), TokenType::ASTERIC),
             '/' => Token::new(self.ch.to_string(), TokenType::SLASH),
             '%' => Token::new(self.ch.to_string(), TokenType::MODULO),
+            '^' => Token::new(self.ch.to_string(), TokenType::BitsiseXor),
             '!' => {
                 if self.match_next('=') {
                     self.read_next();
                     Token::new(String::from("!="), TokenType::NotEqual)
                 } else {
-                    Token::new(self.ch.to_string(), TokenType::Bang)
+                    Token::new(self.ch.to_string(), TokenType::LogicalNot)
+                }
+            }
+
+            '|' => {
+                if self.match_next('|') {
+                    self.read_next();
+                    Token::new(String::from("||"), TokenType::LogicalOr)
+                } else {
+                    Token::new(self.ch.to_string(), TokenType::BitwiseOr)
+                }
+            }
+
+            '&' => {
+                if self.match_next('&') {
+                    self.read_next();
+                    Token::new(String::from("&&"), TokenType::LogicalAnd)
+                } else {
+                    Token::new(self.ch.to_string(), TokenType::BitwiseAnd)
                 }
             }
 
