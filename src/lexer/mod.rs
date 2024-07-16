@@ -56,6 +56,24 @@ impl Lexer {
                 }
             }
 
+            '<' => {
+                if self.match_next('=') {
+                    self.read_next();
+                    Token::new(String::from("<="), TokenType::LessThanEqual)
+                } else {
+                    Token::new(self.ch.to_string(), TokenType::LessThan)
+                }
+            }
+
+            '>' => {
+                if self.match_next('=') {
+                    self.read_next();
+                    Token::new(String::from(">="), TokenType::MoreThanEqual)
+                } else {
+                    Token::new(self.ch.to_string(), TokenType::MoreThan)
+                }
+            }
+
             //TODO: handle literals, keywords and other related things.
             _ => {
                 if self.ch.is_ascii_digit() {
