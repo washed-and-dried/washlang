@@ -69,17 +69,6 @@ impl Lexer {
     fn match_next(&mut self, c: char) -> bool {
         self.char_at(self.position_next) == c
     }
-    // TODO: Yet to implement, walks the entire self.input using self.read_next() until a ' ' space
-    // is encountered. (maybe not just a space, @kishore needed)
-    fn walk_rest(&mut self) -> String {
-        let mut val: String = "".to_string();
-        while self.ch != ' ' {
-            // TODO: other checks here later please
-            val.push(self.ch);
-            self.read_next();
-        }
-        val
-    }
 
     fn read_digit(&mut self) -> Token {
         let pos = self.position_current;
