@@ -21,8 +21,9 @@ pub enum TokenType {
     NotEqual,
     LessThan,
     LessThanEqual,
-    MORE,
+    MoreThan,
     MoreThanEqual,
+    LogicalNot,
     ExprEnd,
 
     // misc

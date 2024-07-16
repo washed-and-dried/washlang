@@ -42,7 +42,7 @@ impl Lexer {
                     self.read_next();
                     Token::new(String::from("!="), TokenType::NotEqual)
                 } else {
-                    Token::new(self.ch.to_string(), TokenType::ILLEGAL)
+                    Token::new(self.ch.to_string(), TokenType::LogicalNot)
                 }
             }
 
