@@ -33,7 +33,7 @@ pub enum TokenType {
     BitwiseRight,
     BitwiseOr,
     BitwiseAnd,
-    BitsiseXor,
+    BitwiseXor,
 
     // misc
     LITERAL,

@@ -37,7 +37,7 @@ impl Lexer {
             '*' => Token::new(self.ch.to_string(), TokenType::ASTERIC),
             '/' => Token::new(self.ch.to_string(), TokenType::SLASH),
             '%' => Token::new(self.ch.to_string(), TokenType::MODULO),
-            '^' => Token::new(self.ch.to_string(), TokenType::BitsiseXor),
+            '^' => Token::new(self.ch.to_string(), TokenType::BitwiseXor),
             '!' => {
                 if self.match_next('=') {
                     self.read_next();
